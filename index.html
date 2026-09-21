@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Jost:wght@300;400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap"
     rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
@@ -19,13 +19,21 @@
 
 <body>
 
+  <!-- Fondo estelar continuo y polvo cósmico interactivo -->
+  <canvas id="starfieldCanvas" class="starfield-canvas" aria-hidden="true"></canvas>
+  <div class="cosmic-dust-overlay" aria-hidden="true"></div>
+
   <main class="scroll-container" id="scrollContainer">
 
     <!-- ESCENA 1: APERTURA -->
     <section class="scene scene-1" id="scene-1" aria-label="Apertura">
       <div class="scene-content">
-        <div class="flame-container" aria-hidden="true">
-          <div class="flame-node flame-scene-1"></div>
+        <div class="celestial-container" aria-hidden="true">
+          <div class="star-node star-scene-1">
+            <span class="diffraction-spike spike-h"></span>
+            <span class="diffraction-spike spike-v"></span>
+            <div class="star-core"></div>
+          </div>
         </div>
         <span class="whisper">19 de septiembre · Un regalo para ti</span>
         <h1 class="headline">Para ti, mi amorcito</h1>
@@ -49,8 +57,13 @@
     <!-- ESCENA 2: LO QUE VE PRIMERO -->
     <section class="scene scene-2" id="scene-2" aria-label="Lo que ves primero">
       <div class="scene-content">
-        <div class="flame-container" aria-hidden="true">
-          <div class="flame-node flame-scene-2"></div>
+        <div class="celestial-container" aria-hidden="true">
+          <div class="star-node star-scene-2">
+            <span class="orbit-glow-ring"></span>
+            <span class="diffraction-spike spike-h"></span>
+            <span class="diffraction-spike spike-v"></span>
+            <div class="star-core"></div>
+          </div>
         </div>
         <span class="whisper">El reflejo apresurado</span>
         <h2 class="headline">Sé cómo te miras a veces</h2>
@@ -76,8 +89,14 @@
     <!-- ESCENA 3: LO QUE NO VE -->
     <section class="scene scene-3" id="scene-3" aria-label="Lo que no ves">
       <div class="scene-content">
-        <div class="flame-container" aria-hidden="true">
-          <div class="flame-node flame-scene-3"></div>
+        <div class="celestial-container" aria-hidden="true">
+          <div class="star-node star-scene-3">
+            <span class="nebula-dust-pulse"></span>
+            <span class="orbit-glow-ring wide"></span>
+            <span class="diffraction-spike spike-h medium"></span>
+            <span class="diffraction-spike spike-v medium"></span>
+            <div class="star-core"></div>
+          </div>
         </div>
         <span class="whisper">Lo que tú no alcanzas a notar</span>
         <h2 class="headline">Pero hay algo que no ves</h2>
@@ -102,8 +121,14 @@
     <!-- ESCENA 4: MENSAJE PERSONAL -->
     <section class="scene scene-4" id="scene-4" aria-label="Mensaje personal">
       <div class="scene-content">
-        <div class="flame-container" aria-hidden="true">
-          <div class="flame-node flame-scene-4"></div>
+        <div class="celestial-container" aria-hidden="true">
+          <div class="star-node star-scene-4">
+            <span class="supernova-halo"></span>
+            <span class="orbit-glow-ring extra"></span>
+            <span class="diffraction-spike spike-h large"></span>
+            <span class="diffraction-spike spike-v large"></span>
+            <div class="star-core"></div>
+          </div>
         </div>
         <p class="personal-salute">Mi Yes hermosa,</p>
         <h2 class="headline">Amo la persona que eres</h2>
@@ -115,7 +140,6 @@
           Me enamoré de ti tal como existes: de cómo te brillan los ojitos, de tus ocurrencias, de
           tu fuerza para seguir adelante y de lo bonito que se siente compartir la vida contigo.
         </p>
-
       </div>
 
       <button class="scroll-hint" id="scrollHint4" aria-label="Ir al espejo final">
@@ -133,8 +157,15 @@
 
         <span class="whisper" id="mirrorBadge">El espejo</span>
 
-        <!-- Marco circular (la flama convertida en portal) -->
-        <div class="mirror-frame" id="mirrorFrame">
+        <!-- Marco circular (portal con anillos orbitales y destellos) -->
+        <div class="mirror-frame cosmic-portal" id="mirrorFrame">
+          <div class="portal-orbit orbit-1" aria-hidden="true"></div>
+          <div class="portal-orbit orbit-2" aria-hidden="true"></div>
+          <div class="portal-sparkle sparkle-top" aria-hidden="true">✦</div>
+          <div class="portal-sparkle sparkle-bottom" aria-hidden="true">✦</div>
+          <div class="portal-sparkle sparkle-left" aria-hidden="true">✧</div>
+          <div class="portal-sparkle sparkle-right" aria-hidden="true">✧</div>
+
           <div class="mirror-inner">
             <!-- Video en vivo reflejado -->
             <video id="mirrorVideo" class="mirror-video" autoplay playsinline muted></video>
@@ -161,7 +192,7 @@
 
         <!-- Controles de cámara iniciales -->
         <div class="camera-controls" id="cameraControls">
-          <button class="btn-camera" id="btnActivateCamera" type="button">
+          <button class="btn-camera btn-celestial" id="btnActivateCamera" type="button">
             <svg class="btn-camera-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
@@ -170,7 +201,8 @@
             <span>Activar espejo</span>
           </button>
           <p class="privacy-notice">
-            Yo te amo mucho mi amorcito<3 </p>
+            Yo te amo mucho mi amorcito &lt;3
+          </p>
         </div>
 
         <!-- Mensaje final y firma revelados tras verse en el espejo (~4s) -->

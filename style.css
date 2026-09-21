@@ -1,21 +1,23 @@
 /* ==========================================================================
-   SISTEMA DE DISEÑO — "Para ti, Mi Amorcito"
+   SISTEMA DE DISEÑO ESTELAR & ASTRONÓMICO — "Para ti, Mi Amorcito"
    ========================================================================== */
 
 :root {
-  /* Paleta cromática: Progresión de amanecer emocional (escenas 1 a 5) */
-  --bg-1: #120E17;
-  --bg-2: #180F1A;
-  --bg-3: #21131B;
-  --bg-4: #2A171B;
-  --bg-5: #331D18;
+  /* Paleta cromática: Progresión del Cosmos Profundo y Nebulosas (Escenas 1 a 5) */
+  --bg-1: #05040B; /* Vacío estelar abisal */
+  --bg-2: #080616; /* Azul medianoche interestelar */
+  --bg-3: #0C0822; /* Nebulosa violeta profunda */
+  --bg-4: #130B2E; /* Amatista cósmico cálido */
+  --bg-5: #1A0F3D; /* Resplandor de supernova / amanecer estelar */
 
-  /* Colores de texto y acento */
-  --ink: #F3E9DC;
-  --ink-soft: #CBB9A8;
-  --gold: #D9A64E;
-  --gold-bright: #F0C878;
-  --ember: #C97B5A;
+  /* Colores de luz, estrellas y nebulosas */
+  --ink: #F7F3FF;
+  --ink-soft: #B5ACD3;
+  --gold: #E8C172;
+  --gold-bright: #FFE399;
+  --cyan-starlight: #8EE3F8;
+  --nebula-rose: #E89EBA;
+  --nebula-violet: #8D5AF2;
 
   /* Tipografías */
   --font-display: 'Cormorant Garamond', Georgia, serif;
@@ -26,11 +28,12 @@
   --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Reset y base */
+/* Reset y base Mobile-First */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -49,20 +52,51 @@ body {
   height: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  touch-action: pan-y;
 }
 
 /* ==========================================================================
-   CONTENEDOR DE SCROLL VERTICAL (SCROLL-SNAP)
+   FONDO ESTELAR DINÁMICO & POLVO CÓSMICO
+   ========================================================================== */
+
+.starfield-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Velo sutil de nebulosas etéreas */
+.cosmic-dust-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: 
+    radial-gradient(ellipse at 15% 25%, rgba(142, 227, 248, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 85% 75%, rgba(186, 123, 247, 0.05) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(232, 193, 114, 0.03) 0%, transparent 70%);
+}
+
+/* ==========================================================================
+   CONTENEDOR DE SCROLL VERTICAL (SCROLL-SNAP CÓSMICO)
    ========================================================================== */
 
 .scroll-container {
   height: 100vh;
   height: 100svh;
   overflow-y: auto;
+  overflow-x: hidden;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   position: relative;
+  z-index: 2;
   scrollbar-width: none; /* Firefox */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
 }
 
 .scroll-container::-webkit-scrollbar {
@@ -70,41 +104,61 @@ body {
 }
 
 /* ==========================================================================
-   ESCENAS (100svh / 100vh)
+   ESCENAS (100svh con Safe Areas y Fondos de Nebulosa)
    ========================================================================== */
 
 .scene {
   height: 100vh;
   height: 100svh;
+  min-height: -webkit-fill-available;
   scroll-snap-align: start;
   scroll-snap-stop: always;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: clamp(2rem, 6vh, 4.5rem) clamp(1.5rem, 5vw, 2.5rem);
+  padding-top: max(clamp(1.5rem, 5vh, 3.5rem), env(safe-area-inset-top));
+  padding-bottom: max(clamp(1.5rem, 5vh, 3.5rem), env(safe-area-inset-bottom));
+  padding-left: max(clamp(1.2rem, 5vw, 2.5rem), env(safe-area-inset-left));
+  padding-right: max(clamp(1.2rem, 5vw, 2.5rem), env(safe-area-inset-right));
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
 }
 
-/* Progresión de fondos */
-.scene-1 { background-color: var(--bg-1); }
-.scene-2 { background-color: var(--bg-2); }
-.scene-3 { background-color: var(--bg-3); }
-.scene-4 { background-color: var(--bg-4); }
-.scene-5 { background-color: var(--bg-5); }
+.scene::-webkit-scrollbar {
+  display: none;
+}
 
-/* Capa sutil de textura / viñeta para sensación cálida y cinematográfica */
+/* Progresión de fondos con degradados de espacio profundo */
+.scene-1 { 
+  background: radial-gradient(circle at 50% 30%, rgba(142, 227, 248, 0.08) 0%, var(--bg-1) 75%);
+}
+.scene-2 { 
+  background: radial-gradient(circle at 50% 40%, rgba(141, 90, 242, 0.09) 0%, var(--bg-2) 80%);
+}
+.scene-3 { 
+  background: radial-gradient(circle at 50% 35%, rgba(232, 158, 186, 0.1) 0%, var(--bg-3) 80%);
+}
+.scene-4 { 
+  background: radial-gradient(circle at 50% 45%, rgba(255, 227, 153, 0.12) 0%, var(--bg-4) 80%);
+}
+.scene-5 { 
+  background: radial-gradient(circle at 50% 35%, rgba(255, 227, 153, 0.16) 0%, rgba(141, 90, 242, 0.12) 45%, var(--bg-5) 85%);
+}
+
+/* Viñeta cinematográfica del cosmos */
 .scene::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, transparent 60%, rgba(0, 0, 0, 0.45) 100%);
+  background: radial-gradient(circle at 50% 50%, transparent 50%, rgba(2, 1, 6, 0.6) 100%);
   pointer-events: none;
   z-index: 1;
 }
 
-/* Contenido centrado y acotado para lectura íntima */
+/* Contenido centrado para lectura íntima */
 .scene-content {
   position: relative;
   z-index: 2;
@@ -114,167 +168,279 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: clamp(3rem, 7.5vh, 5rem);
 }
 
 /* ==========================================================================
-   TIPOGRAFÍA
+   TIPOGRAFÍA CELESTIAL
    ========================================================================== */
 
 .headline {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  font-size: clamp(1.85rem, 5.5vw, 3.2rem);
   line-height: 1.18;
   color: var(--ink);
   letter-spacing: -0.01em;
-  margin-bottom: clamp(1.25rem, 3vh, 2rem);
+  margin-bottom: clamp(0.9rem, 2.5vh, 1.8rem);
+  text-wrap: balance;
+  text-shadow: 0 0 25px rgba(247, 243, 255, 0.18);
 }
 
 .lead-text {
   font-family: var(--font-display);
-  font-size: clamp(1.3rem, 3.6vw, 1.75rem);
-  line-height: 1.55;
+  font-size: clamp(1.15rem, 3.4vw, 1.65rem);
+  line-height: 1.5;
   color: var(--ink);
   font-weight: 300;
-  margin-bottom: clamp(1rem, 2.5vh, 1.75rem);
+  margin-bottom: clamp(0.75rem, 2vh, 1.5rem);
+  text-wrap: pretty;
+  text-shadow: 0 0 15px rgba(247, 243, 255, 0.1);
 }
 
 .sub-line {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(1.15rem, 3vw, 1.45rem);
-  line-height: 1.6;
+  font-size: clamp(1.05rem, 2.8vw, 1.35rem);
+  line-height: 1.55;
   color: var(--ink-soft);
+  text-wrap: pretty;
 }
 
 .whisper {
   font-family: var(--font-ui);
-  font-weight: 300;
-  font-size: clamp(0.75rem, 2vw, 0.88rem);
-  letter-spacing: 0.18em;
+  font-weight: 400;
+  font-size: clamp(0.72rem, 1.8vw, 0.85rem);
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: clamp(1rem, 2.5vh, 1.5rem);
-  opacity: 0.9;
+  color: var(--gold-bright);
+  margin-bottom: clamp(0.75rem, 2vh, 1.25rem);
+  opacity: 0.95;
+  user-select: none;
+  text-shadow: 0 0 10px rgba(255, 227, 153, 0.5);
 }
 
 .personal-salute {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  font-size: clamp(1.35rem, 3.8vw, 2.1rem);
   color: var(--gold-bright);
-  margin-bottom: clamp(1rem, 2.5vh, 1.5rem);
+  margin-bottom: clamp(0.75rem, 2vh, 1.25rem);
+  text-shadow: 0 0 20px rgba(255, 227, 153, 0.6);
 }
 
 /* ==========================================================================
-   MOTIVO VISUAL: LA FLAMA RECURRENTE
+   MOTIVO VISUAL: CUERPO CELESTE / ESTRELLA EVOLUTIVA
    ========================================================================== */
 
-.flame-container {
+.celestial-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: clamp(1.5rem, 3.5vh, 2.5rem);
+  margin-bottom: clamp(1.1rem, 3vh, 2.2rem);
+  user-select: none;
+  position: relative;
 }
 
-.flame-node {
+.star-node {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.star-core {
   border-radius: 50%;
   position: relative;
+  z-index: 2;
   transition: all 0.8s ease;
 }
 
-/* Escena 1: pequeña chispa de intimidad */
-.flame-scene-1 {
+/* Destellos de difracción astronómicos (Cruces de luz) */
+.diffraction-spike {
+  position: absolute;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.95) 50%, transparent 100%);
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.diffraction-spike.spike-h {
+  width: 44px;
+  height: 1.5px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.diffraction-spike.spike-v {
+  width: 1.5px;
+  height: 44px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.95) 50%, transparent 100%);
+}
+
+.diffraction-spike.medium.spike-h { width: 68px; height: 2px; }
+.diffraction-spike.medium.spike-v { height: 68px; width: 2px; }
+.diffraction-spike.large.spike-h { width: 95px; height: 2px; }
+.diffraction-spike.large.spike-v { height: 95px; width: 2px; }
+
+/* Escena 1: Púlsar solitario / Chispa estelar pura */
+.star-scene-1 .star-core {
   width: 14px;
   height: 14px;
-  background: var(--gold-bright);
+  background: radial-gradient(circle, #FFFFFF 20%, var(--cyan-starlight) 65%, var(--gold) 100%);
   box-shadow: 
-    0 0 10px rgba(240, 200, 120, 0.9),
-    0 0 25px rgba(217, 166, 78, 0.6),
-    0 0 50px rgba(201, 123, 90, 0.3);
-  animation: flame-pulse 3.8s ease-in-out infinite;
+    0 0 12px rgba(255, 255, 255, 0.9),
+    0 0 30px rgba(142, 227, 248, 0.7),
+    0 0 55px rgba(232, 193, 114, 0.4);
+  animation: pulsar-glow 3.5s ease-in-out infinite;
 }
 
-/* Escena 2: flama que comienza a templar */
-.flame-scene-2 {
-  width: 24px;
-  height: 24px;
-  background: radial-gradient(circle, #FFFFFF 10%, var(--gold-bright) 50%, var(--gold) 90%);
+/* Escena 2: Estrella con anillo de órbita y gravedad */
+.star-scene-2 .star-core {
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, #FFFFFF 25%, var(--gold-bright) 60%, var(--nebula-violet) 100%);
   box-shadow: 
-    0 0 14px rgba(240, 200, 120, 0.95),
-    0 0 35px rgba(217, 166, 78, 0.7),
-    0 0 70px rgba(201, 123, 90, 0.4);
-  animation: flame-pulse 3.4s ease-in-out infinite alternate;
+    0 0 16px rgba(255, 255, 255, 0.95),
+    0 0 35px rgba(255, 227, 153, 0.8),
+    0 0 70px rgba(141, 90, 242, 0.5);
+  animation: pulsar-glow 3.2s ease-in-out infinite alternate;
 }
 
-/* Escena 3: luz más amplia y cálida */
-.flame-scene-3 {
-  width: 42px;
-  height: 42px;
-  background: radial-gradient(circle, #FFFFFF 15%, var(--gold-bright) 55%, var(--ember) 95%);
-  box-shadow: 
-    0 0 20px rgba(240, 200, 120, 1),
-    0 0 50px rgba(217, 166, 78, 0.8),
-    0 0 100px rgba(201, 123, 90, 0.5);
-  animation: flame-pulse 3.1s ease-in-out infinite alternate;
+.orbit-glow-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 227, 153, 0.45);
+  width: 46px;
+  height: 46px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: orbit-rotate 16s linear infinite;
+  box-shadow: 0 0 15px rgba(255, 227, 153, 0.2);
 }
 
-/* Escena 4: resplandor dorado abrazador */
-.flame-scene-4 {
-  width: 64px;
-  height: 64px;
-  background: radial-gradient(circle, #FFFFFF 20%, var(--gold-bright) 60%, var(--gold) 100%);
-  box-shadow: 
-    0 0 28px rgba(240, 200, 120, 1),
-    0 0 65px rgba(217, 166, 78, 0.85),
-    0 0 120px rgba(201, 123, 90, 0.6);
-  animation: flame-pulse 2.8s ease-in-out infinite alternate;
+.orbit-glow-ring.wide {
+  width: 68px;
+  height: 68px;
+  border: 1px solid rgba(142, 227, 248, 0.35);
+  animation: orbit-rotate 22s linear infinite reverse;
 }
 
-@keyframes flame-pulse {
-  0% {
-    transform: scale(0.96);
-    opacity: 0.88;
-  }
-  50% {
-    transform: scale(1.04);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(0.96);
-    opacity: 0.88;
-  }
+.orbit-glow-ring.extra {
+  width: 90px;
+  height: 90px;
+  border: 1px dashed rgba(255, 227, 153, 0.5);
+  animation: orbit-rotate 28s linear infinite;
+}
+
+/* Escena 3: Nebulosa estelar envolvente */
+.star-scene-3 .star-core {
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle, #FFFFFF 20%, var(--gold-bright) 55%, var(--nebula-rose) 90%);
+  box-shadow: 
+    0 0 20px rgba(255, 255, 255, 1),
+    0 0 45px rgba(255, 227, 153, 0.85),
+    0 0 90px rgba(232, 158, 186, 0.6);
+  animation: pulsar-glow 2.9s ease-in-out infinite alternate;
+}
+
+.nebula-dust-pulse {
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 158, 186, 0.3) 0%, rgba(141, 90, 242, 0.15) 50%, transparent 75%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: nebula-breath 4s ease-in-out infinite alternate;
+}
+
+/* Escena 4: Supernova cálida y radiante */
+.star-scene-4 .star-core {
+  width: 44px;
+  height: 44px;
+  background: radial-gradient(circle, #FFFFFF 25%, var(--gold-bright) 55%, var(--gold) 90%);
+  box-shadow: 
+    0 0 28px rgba(255, 255, 255, 1),
+    0 0 60px rgba(255, 227, 153, 0.9),
+    0 0 120px rgba(232, 193, 114, 0.7);
+  animation: pulsar-glow 2.5s ease-in-out infinite alternate;
+}
+
+.supernova-halo {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 227, 153, 0.35) 0%, rgba(142, 227, 248, 0.18) 45%, transparent 75%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: nebula-breath 3.2s ease-in-out infinite alternate;
+}
+
+@keyframes pulsar-glow {
+  0% { transform: scale(0.95); opacity: 0.9; }
+  50% { transform: scale(1.05); opacity: 1; filter: brightness(1.15); }
+  100% { transform: scale(0.95); opacity: 0.9; }
+}
+
+@keyframes nebula-breath {
+  0% { transform: translate(-50%, -50%) scale(0.92); opacity: 0.7; }
+  100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+}
+
+@keyframes orbit-rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 /* ==========================================================================
-   INDICADOR DE SCROLL SUTIL
+   INDICADOR DE SCROLL CELESTIAL
    ========================================================================== */
 
 .scroll-hint {
   position: absolute;
-  bottom: clamp(1.5rem, 4vh, 2.5rem);
+  bottom: max(clamp(0.9rem, 2.8vh, 1.8rem), env(safe-area-inset-bottom));
   left: 50%;
   transform: translateX(-50%);
-  z-index: 2;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  gap: 0.35rem;
   color: var(--ink-soft);
   text-decoration: none;
   font-family: var(--font-ui);
-  font-size: 0.78rem;
-  letter-spacing: 0.15em;
+  font-size: clamp(0.72rem, 1.8vw, 0.8rem);
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.2s ease;
   cursor: pointer;
   background: none;
   border: none;
+  min-height: 48px;
+  min-width: 48px;
+  padding: 0.4rem 1.2rem;
+  user-select: none;
 }
 
 .scroll-hint:hover,
 .scroll-hint:focus-visible {
   color: var(--gold-bright);
+  text-shadow: 0 0 10px rgba(255, 227, 153, 0.6);
+}
+
+.scroll-hint:active {
+  transform: translateX(-50%) scale(0.96);
 }
 
 .scroll-hint-arrow {
@@ -286,11 +452,11 @@ body {
 
 @keyframes bounce-gentle {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(6px); }
+  50% { transform: translateY(5px); }
 }
 
 /* ==========================================================================
-   ESCENA 5: EL ESPEJO (CLÍMAX)
+   ESCENA 5: EL PORTAL CELESTIAL (ESPEJO CÓSMICO)
    ========================================================================== */
 
 .mirror-section {
@@ -299,33 +465,88 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
+  padding-bottom: 0.5rem;
+  position: relative;
 }
 
-/* Marco circular del espejo (la flama convertida en portal) */
-.mirror-frame {
-  width: clamp(210px, 48vw, 300px);
-  height: clamp(210px, 48vw, 300px);
+/* Portal Astrolábico del espejo */
+.mirror-frame.cosmic-portal {
+  width: clamp(170px, 46vw, 240px);
+  height: clamp(170px, 46vw, 240px);
   border-radius: 50%;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: clamp(1.5rem, 3.5vh, 2.2rem);
+  margin-bottom: clamp(1rem, 2.6vh, 1.8rem);
   padding: 6px;
-  background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 50%, var(--ember) 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, var(--gold-bright) 35%, var(--cyan-starlight) 70%, var(--nebula-violet) 100%);
   box-shadow: 
-    0 0 25px rgba(240, 200, 120, 0.75),
-    0 0 70px rgba(217, 166, 78, 0.45),
-    0 0 130px rgba(201, 123, 90, 0.35);
-  transition: transform 0.6s var(--transition-smooth), box-shadow 0.6s var(--transition-smooth);
+    0 0 25px rgba(255, 227, 153, 0.8),
+    0 0 60px rgba(142, 227, 248, 0.5),
+    0 0 110px rgba(141, 90, 242, 0.4);
+  transition: width 0.9s var(--transition-smooth), 
+              height 0.9s var(--transition-smooth), 
+              margin 0.9s var(--transition-smooth),
+              transform 0.6s var(--transition-smooth), 
+              box-shadow 0.6s var(--transition-smooth);
 }
 
 .mirror-frame.active {
   box-shadow: 
-    0 0 35px rgba(240, 200, 120, 0.9),
-    0 0 90px rgba(217, 166, 78, 0.6),
-    0 0 160px rgba(201, 123, 90, 0.45);
+    0 0 35px rgba(255, 255, 255, 0.95),
+    0 0 85px rgba(255, 227, 153, 0.75),
+    0 0 150px rgba(142, 227, 248, 0.6);
 }
+
+/* Anillos orbitales concéntricos decorativos del portal */
+.portal-orbit {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.portal-orbit.orbit-1 {
+  inset: -14px;
+  border: 1px dashed rgba(255, 227, 153, 0.4);
+  animation: orbit-rotate 24s linear infinite;
+}
+
+.portal-orbit.orbit-2 {
+  inset: -26px;
+  border: 1px dotted rgba(142, 227, 248, 0.35);
+  animation: orbit-rotate 36s linear infinite reverse;
+}
+
+/* Destellos estelares en los ejes cardinales */
+.portal-sparkle {
+  position: absolute;
+  font-size: 0.85rem;
+  color: var(--gold-bright);
+  text-shadow: 0 0 8px rgba(255, 227, 153, 0.9);
+  pointer-events: none;
+  animation: sparkle-pulse 3s ease-in-out infinite alternate;
+}
+
+.portal-sparkle.sparkle-top { top: -14px; left: 50%; transform: translateX(-50%); }
+.portal-sparkle.sparkle-bottom { bottom: -14px; left: 50%; transform: translateX(-50%); }
+.portal-sparkle.sparkle-left { left: -14px; top: 50%; transform: translateY(-50%); }
+.portal-sparkle.sparkle-right { right: -14px; top: 50%; transform: translateY(-50%); }
+
+@keyframes sparkle-pulse {
+  0% { opacity: 0.5; transform: translate(-50%, 0) scale(0.85); }
+  100% { opacity: 1; transform: translate(-50%, 0) scale(1.15); }
+}
+
+/* Reducción armónica cuando se revela el clímax en móvil */
+.scene-5.climax-active .mirror-frame {
+  width: clamp(125px, 32vw, 175px);
+  height: clamp(125px, 32vw, 175px);
+  margin-bottom: clamp(0.6rem, 1.8vh, 1.2rem);
+}
+
+.scene-5.climax-active .portal-orbit.orbit-1 { inset: -9px; }
+.scene-5.climax-active .portal-orbit.orbit-2 { inset: -18px; }
 
 /* Interior del marco */
 .mirror-inner {
@@ -333,11 +554,12 @@ body {
   height: 100%;
   border-radius: 50%;
   overflow: hidden;
-  background-color: #0b070f;
+  background-color: #05040B;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 2;
 }
 
 /* Video en vivo reflejado */
@@ -345,7 +567,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scaleX(-1); /* EFECTO ESPEJO */
+  transform: scaleX(-1);
   opacity: 0;
   transition: opacity 1.2s ease;
   position: absolute;
@@ -365,8 +587,8 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 1.5rem;
-  background: radial-gradient(circle at 50% 50%, #201321 0%, #0d0710 100%);
+  padding: 1.2rem;
+  background: radial-gradient(circle at 50% 50%, #150E28 0%, #05040B 100%);
   transition: opacity 0.8s ease;
 }
 
@@ -376,23 +598,24 @@ body {
 }
 
 .mirror-placeholder-icon {
-  width: 44px;
-  height: 44px;
+  width: clamp(34px, 8vw, 42px);
+  height: clamp(34px, 8vw, 42px);
   stroke: var(--gold-bright);
   stroke-width: 1.2;
-  margin-bottom: 0.8rem;
-  opacity: 0.85;
+  margin-bottom: 0.6rem;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 8px rgba(255, 227, 153, 0.6));
 }
 
 .mirror-placeholder-text {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: 1.05rem;
+  font-size: clamp(0.95rem, 2.6vw, 1.05rem);
   color: var(--ink-soft);
-  line-height: 1.4;
+  line-height: 1.35;
 }
 
-/* Fallback poético explícito (si no hay cámara o permiso denegado) */
+/* Fallback poético estelar */
 .fallback-view {
   position: absolute;
   inset: 0;
@@ -400,8 +623,8 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
-  background: radial-gradient(circle at 50% 40%, rgba(217, 166, 78, 0.22) 0%, rgba(18, 14, 23, 0.95) 75%);
+  padding: 1.2rem;
+  background: radial-gradient(circle at 50% 40%, rgba(255, 227, 153, 0.25) 0%, rgba(12, 8, 34, 0.95) 75%);
   text-align: center;
   opacity: 0;
   pointer-events: none;
@@ -416,22 +639,23 @@ body {
 .fallback-view p {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
-  line-height: 1.45;
+  font-size: clamp(0.95rem, 2.4vw, 1.2rem);
+  line-height: 1.4;
   color: var(--ink);
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
 }
 
 /* ==========================================================================
-   INTERACCIÓN Y BOTÓN DE CÁMARA
+   BOTÓN CELESTIAL
    ========================================================================== */
 
 .camera-controls {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.85rem;
+  gap: 0.75rem;
   width: 100%;
-  max-width: 24rem;
+  max-width: 20rem;
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
@@ -442,64 +666,75 @@ body {
   position: absolute;
 }
 
-.btn-camera {
+.btn-camera.btn-celestial {
   font-family: var(--font-ui);
-  font-size: clamp(0.95rem, 2.4vw, 1.05rem);
-  font-weight: 400;
+  font-size: clamp(0.92rem, 2.4vw, 1.02rem);
+  font-weight: 500;
   letter-spacing: 0.08em;
   padding: 0.85rem 2.2rem;
-  background: linear-gradient(135deg, var(--gold-bright), var(--gold));
-  color: #120E17;
-  border: none;
+  min-height: 48px;
+  background: linear-gradient(135deg, #FFF6DD 0%, var(--gold-bright) 50%, var(--gold) 100%);
+  color: #070512;
+  border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 999px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.6rem;
-  box-shadow: 0 4px 20px rgba(217, 166, 78, 0.4);
+  box-shadow: 
+    0 0 15px rgba(255, 227, 153, 0.6),
+    0 4px 22px rgba(142, 227, 248, 0.4);
   transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  user-select: none;
 }
 
-.btn-camera:hover {
+.btn-camera.btn-celestial:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 28px rgba(240, 200, 120, 0.6);
-  background: linear-gradient(135deg, #FFF0CA, var(--gold-bright));
+  box-shadow: 
+    0 0 25px rgba(255, 255, 255, 0.8),
+    0 6px 30px rgba(255, 227, 153, 0.7),
+    0 0 40px rgba(142, 227, 248, 0.5);
+  background: linear-gradient(135deg, #FFFFFF, var(--gold-bright));
 }
 
-.btn-camera:active {
-  transform: translateY(0);
+.btn-camera.btn-celestial:active {
+  transform: scale(0.97);
 }
 
 .btn-camera:focus-visible {
-  outline: 2px solid var(--gold-bright);
+  outline: 2px solid var(--cyan-starlight);
   outline-offset: 4px;
 }
 
 .btn-camera-icon {
   width: 18px;
   height: 18px;
+  flex-shrink: 0;
 }
 
 .privacy-notice {
   font-family: var(--font-ui);
-  font-size: 0.8rem;
+  font-size: clamp(0.76rem, 2vw, 0.82rem);
   line-height: 1.4;
   color: var(--ink-soft);
   text-align: center;
-  opacity: 0.85;
+  opacity: 0.9;
+  letter-spacing: 0.05em;
 }
 
 /* ==========================================================================
-   MENSAJE FINAL Y FIRMA (FADE-IN TRAS ~4 SEGUNDOS)
+   MENSAJE FINAL Y FIRMA (REVELADO SUAVE TRAS ~4s)
    ========================================================================== */
 
 .climax-message {
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 1.8s ease, transform 1.8s var(--transition-smooth);
+  transform: translateY(12px);
+  transition: opacity 1.6s ease, transform 1.6s var(--transition-smooth);
   pointer-events: none;
   width: 100%;
-  margin-top: 0.5rem;
+  max-width: 28rem;
+  margin-top: 0.3rem;
 }
 
 .climax-message.revealed {
@@ -510,28 +745,112 @@ body {
 
 .climax-text {
   font-family: var(--font-display);
-  font-size: clamp(1.2rem, 3.4vw, 1.6rem);
-  line-height: 1.55;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  line-height: 1.45;
   color: var(--ink);
-  margin-bottom: 1.25rem;
+  margin-bottom: clamp(0.75rem, 2vh, 1.2rem);
+  text-wrap: pretty;
+  text-shadow: 0 0 15px rgba(247, 243, 255, 0.2);
 }
 
 .climax-signature {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(1.25rem, 3.5vw, 1.75rem);
+  font-size: clamp(1.15rem, 3.2vw, 1.65rem);
   color: var(--gold-bright);
   letter-spacing: 0.02em;
+  line-height: 1.35;
+  text-shadow: 0 0 18px rgba(255, 227, 153, 0.5);
 }
 
 .climax-date {
   font-family: var(--font-ui);
-  font-size: 0.78rem;
-  letter-spacing: 0.16em;
+  font-size: clamp(0.72rem, 1.8vw, 0.78rem);
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  margin-top: 0.6rem;
-  opacity: 0.8;
+  margin-top: 0.5rem;
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   MEJORAS PROGRESIVAS: TABLETS & DESKTOPS (min-width: 768px)
+   ========================================================================== */
+
+@media (min-width: 768px) {
+  .mirror-frame.cosmic-portal {
+    width: clamp(230px, 32vw, 290px);
+    height: clamp(230px, 32vw, 290px);
+    margin-bottom: 2rem;
+  }
+
+  .scene-5.climax-active .mirror-frame {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 1.5rem;
+  }
+
+  .diffraction-spike.spike-h { width: 56px; }
+  .diffraction-spike.spike-v { height: 56px; }
+  .diffraction-spike.medium.spike-h { width: 85px; }
+  .diffraction-spike.medium.spike-v { height: 85px; }
+  .diffraction-spike.large.spike-h { width: 120px; }
+  .diffraction-spike.large.spike-v { height: 120px; }
+}
+
+/* ==========================================================================
+   ADAPTACIÓN PARA PANTALLAS CON ALTURA REDUCIDA (max-height: 680px)
+   ========================================================================== */
+
+@media (max-height: 680px) {
+  .scene {
+    padding-top: max(1rem, env(safe-area-inset-top));
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  .scene-content {
+    padding-bottom: 2.8rem;
+  }
+
+  .headline {
+    margin-bottom: 0.6rem;
+    font-size: clamp(1.6rem, 4.5vw, 2.2rem);
+  }
+
+  .lead-text {
+    margin-bottom: 0.5rem;
+    font-size: clamp(1.05rem, 2.8vw, 1.25rem);
+  }
+
+  .whisper {
+    margin-bottom: 0.5rem;
+  }
+
+  .celestial-container {
+    margin-bottom: 0.8rem;
+  }
+
+  .mirror-frame.cosmic-portal {
+    width: clamp(140px, 35vw, 180px);
+    height: clamp(140px, 35vw, 180px);
+    margin-bottom: 0.75rem;
+  }
+
+  .scene-5.climax-active .mirror-frame {
+    width: 110px;
+    height: 110px;
+    margin-bottom: 0.5rem;
+  }
+
+  .climax-text {
+    font-size: 1.05rem;
+    line-height: 1.35;
+    margin-bottom: 0.5rem;
+  }
+
+  .climax-signature {
+    font-size: 1.1rem;
+  }
 }
 
 /* ==========================================================================
@@ -543,17 +862,22 @@ body {
     scroll-behavior: auto !important;
   }
 
-  .flame-scene-1,
-  .flame-scene-2,
-  .flame-scene-3,
-  .flame-scene-4,
-  .scroll-hint-arrow {
+  .portal-orbit,
+  .orbit-glow-ring,
+  .scroll-hint-arrow,
+  .star-scene-1 .star-core,
+  .star-scene-2 .star-core,
+  .star-scene-3 .star-core,
+  .star-scene-4 .star-core,
+  .nebula-dust-pulse,
+  .supernova-halo {
     animation: none !important;
   }
 
   .climax-message,
   .mirror-video,
-  .fallback-view {
-    transition: opacity 0.4s linear, transform 0.4s linear !important;
+  .fallback-view,
+  .mirror-frame {
+    transition: opacity 0.3s linear, transform 0.3s linear !important;
   }
 }
