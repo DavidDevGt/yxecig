@@ -1,0 +1,559 @@
+/* ==========================================================================
+   SISTEMA DE DISEÑO — "Para ti, Mi Amorcito"
+   ========================================================================== */
+
+:root {
+  /* Paleta cromática: Progresión de amanecer emocional (escenas 1 a 5) */
+  --bg-1: #120E17;
+  --bg-2: #180F1A;
+  --bg-3: #21131B;
+  --bg-4: #2A171B;
+  --bg-5: #331D18;
+
+  /* Colores de texto y acento */
+  --ink: #F3E9DC;
+  --ink-soft: #CBB9A8;
+  --gold: #D9A64E;
+  --gold-bright: #F0C878;
+  --ember: #C97B5A;
+
+  /* Tipografías */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-ui: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Geometría y ritmo */
+  --content-max-width: 34rem;
+  --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Reset y base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  background-color: var(--bg-1);
+  color: var(--ink);
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-display);
+  background-color: var(--bg-1);
+  color: var(--ink);
+  overflow-x: hidden;
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   CONTENEDOR DE SCROLL VERTICAL (SCROLL-SNAP)
+   ========================================================================== */
+
+.scroll-container {
+  height: 100vh;
+  height: 100svh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  position: relative;
+  scrollbar-width: none; /* Firefox */
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+/* ==========================================================================
+   ESCENAS (100svh / 100vh)
+   ========================================================================== */
+
+.scene {
+  height: 100vh;
+  height: 100svh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(2rem, 6vh, 4.5rem) clamp(1.5rem, 5vw, 2.5rem);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Progresión de fondos */
+.scene-1 { background-color: var(--bg-1); }
+.scene-2 { background-color: var(--bg-2); }
+.scene-3 { background-color: var(--bg-3); }
+.scene-4 { background-color: var(--bg-4); }
+.scene-5 { background-color: var(--bg-5); }
+
+/* Capa sutil de textura / viñeta para sensación cálida y cinematográfica */
+.scene::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 60%, rgba(0, 0, 0, 0.45) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Contenido centrado y acotado para lectura íntima */
+.scene-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: var(--content-max-width);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ==========================================================================
+   TIPOGRAFÍA
+   ========================================================================== */
+
+.headline {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  line-height: 1.18;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  margin-bottom: clamp(1.25rem, 3vh, 2rem);
+}
+
+.lead-text {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 3.6vw, 1.75rem);
+  line-height: 1.55;
+  color: var(--ink);
+  font-weight: 300;
+  margin-bottom: clamp(1rem, 2.5vh, 1.75rem);
+}
+
+.sub-line {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.15rem, 3vw, 1.45rem);
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.whisper {
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: clamp(0.75rem, 2vw, 0.88rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: clamp(1rem, 2.5vh, 1.5rem);
+  opacity: 0.9;
+}
+
+.personal-salute {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  color: var(--gold-bright);
+  margin-bottom: clamp(1rem, 2.5vh, 1.5rem);
+}
+
+/* ==========================================================================
+   MOTIVO VISUAL: LA FLAMA RECURRENTE
+   ========================================================================== */
+
+.flame-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: clamp(1.5rem, 3.5vh, 2.5rem);
+}
+
+.flame-node {
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.8s ease;
+}
+
+/* Escena 1: pequeña chispa de intimidad */
+.flame-scene-1 {
+  width: 14px;
+  height: 14px;
+  background: var(--gold-bright);
+  box-shadow: 
+    0 0 10px rgba(240, 200, 120, 0.9),
+    0 0 25px rgba(217, 166, 78, 0.6),
+    0 0 50px rgba(201, 123, 90, 0.3);
+  animation: flame-pulse 3.8s ease-in-out infinite;
+}
+
+/* Escena 2: flama que comienza a templar */
+.flame-scene-2 {
+  width: 24px;
+  height: 24px;
+  background: radial-gradient(circle, #FFFFFF 10%, var(--gold-bright) 50%, var(--gold) 90%);
+  box-shadow: 
+    0 0 14px rgba(240, 200, 120, 0.95),
+    0 0 35px rgba(217, 166, 78, 0.7),
+    0 0 70px rgba(201, 123, 90, 0.4);
+  animation: flame-pulse 3.4s ease-in-out infinite alternate;
+}
+
+/* Escena 3: luz más amplia y cálida */
+.flame-scene-3 {
+  width: 42px;
+  height: 42px;
+  background: radial-gradient(circle, #FFFFFF 15%, var(--gold-bright) 55%, var(--ember) 95%);
+  box-shadow: 
+    0 0 20px rgba(240, 200, 120, 1),
+    0 0 50px rgba(217, 166, 78, 0.8),
+    0 0 100px rgba(201, 123, 90, 0.5);
+  animation: flame-pulse 3.1s ease-in-out infinite alternate;
+}
+
+/* Escena 4: resplandor dorado abrazador */
+.flame-scene-4 {
+  width: 64px;
+  height: 64px;
+  background: radial-gradient(circle, #FFFFFF 20%, var(--gold-bright) 60%, var(--gold) 100%);
+  box-shadow: 
+    0 0 28px rgba(240, 200, 120, 1),
+    0 0 65px rgba(217, 166, 78, 0.85),
+    0 0 120px rgba(201, 123, 90, 0.6);
+  animation: flame-pulse 2.8s ease-in-out infinite alternate;
+}
+
+@keyframes flame-pulse {
+  0% {
+    transform: scale(0.96);
+    opacity: 0.88;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.96);
+    opacity: 0.88;
+  }
+}
+
+/* ==========================================================================
+   INDICADOR DE SCROLL SUTIL
+   ========================================================================== */
+
+.scroll-hint {
+  position: absolute;
+  bottom: clamp(1.5rem, 4vh, 2.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.scroll-hint:hover,
+.scroll-hint:focus-visible {
+  color: var(--gold-bright);
+}
+
+.scroll-hint-arrow {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  animation: bounce-gentle 2.2s infinite ease-in-out;
+}
+
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+/* ==========================================================================
+   ESCENA 5: EL ESPEJO (CLÍMAX)
+   ========================================================================== */
+
+.mirror-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Marco circular del espejo (la flama convertida en portal) */
+.mirror-frame {
+  width: clamp(210px, 48vw, 300px);
+  height: clamp(210px, 48vw, 300px);
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: clamp(1.5rem, 3.5vh, 2.2rem);
+  padding: 6px;
+  background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 50%, var(--ember) 100%);
+  box-shadow: 
+    0 0 25px rgba(240, 200, 120, 0.75),
+    0 0 70px rgba(217, 166, 78, 0.45),
+    0 0 130px rgba(201, 123, 90, 0.35);
+  transition: transform 0.6s var(--transition-smooth), box-shadow 0.6s var(--transition-smooth);
+}
+
+.mirror-frame.active {
+  box-shadow: 
+    0 0 35px rgba(240, 200, 120, 0.9),
+    0 0 90px rgba(217, 166, 78, 0.6),
+    0 0 160px rgba(201, 123, 90, 0.45);
+}
+
+/* Interior del marco */
+.mirror-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #0b070f;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Video en vivo reflejado */
+.mirror-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1); /* EFECTO ESPEJO */
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  position: absolute;
+  inset: 0;
+}
+
+.mirror-video.visible {
+  opacity: 1;
+}
+
+/* Estado de reposo / Pre-activación */
+.mirror-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.5rem;
+  background: radial-gradient(circle at 50% 50%, #201321 0%, #0d0710 100%);
+  transition: opacity 0.8s ease;
+}
+
+.mirror-placeholder.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mirror-placeholder-icon {
+  width: 44px;
+  height: 44px;
+  stroke: var(--gold-bright);
+  stroke-width: 1.2;
+  margin-bottom: 0.8rem;
+  opacity: 0.85;
+}
+
+.mirror-placeholder-text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+
+/* Fallback poético explícito (si no hay cámara o permiso denegado) */
+.fallback-view {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: radial-gradient(circle at 50% 40%, rgba(217, 166, 78, 0.22) 0%, rgba(18, 14, 23, 0.95) 75%);
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s ease;
+}
+
+.fallback-view.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.fallback-view p {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+/* ==========================================================================
+   INTERACCIÓN Y BOTÓN DE CÁMARA
+   ========================================================================== */
+
+.camera-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  max-width: 24rem;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.camera-controls.hidden {
+  opacity: 0;
+  transform: scale(0.94);
+  pointer-events: none;
+  position: absolute;
+}
+
+.btn-camera {
+  font-family: var(--font-ui);
+  font-size: clamp(0.95rem, 2.4vw, 1.05rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  padding: 0.85rem 2.2rem;
+  background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+  color: #120E17;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 4px 20px rgba(217, 166, 78, 0.4);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.btn-camera:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(240, 200, 120, 0.6);
+  background: linear-gradient(135deg, #FFF0CA, var(--gold-bright));
+}
+
+.btn-camera:active {
+  transform: translateY(0);
+}
+
+.btn-camera:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 4px;
+}
+
+.btn-camera-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.privacy-notice {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  text-align: center;
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   MENSAJE FINAL Y FIRMA (FADE-IN TRAS ~4 SEGUNDOS)
+   ========================================================================== */
+
+.climax-message {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 1.8s ease, transform 1.8s var(--transition-smooth);
+  pointer-events: none;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.climax-message.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.climax-text {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 3.4vw, 1.6rem);
+  line-height: 1.55;
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+}
+
+.climax-signature {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.25rem, 3.5vw, 1.75rem);
+  color: var(--gold-bright);
+  letter-spacing: 0.02em;
+}
+
+.climax-date {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-top: 0.6rem;
+  opacity: 0.8;
+}
+
+/* ==========================================================================
+   ACCESIBILIDAD: PREFERS-REDUCED-MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html, .scroll-container {
+    scroll-behavior: auto !important;
+  }
+
+  .flame-scene-1,
+  .flame-scene-2,
+  .flame-scene-3,
+  .flame-scene-4,
+  .scroll-hint-arrow {
+    animation: none !important;
+  }
+
+  .climax-message,
+  .mirror-video,
+  .fallback-view {
+    transition: opacity 0.4s linear, transform 0.4s linear !important;
+  }
+}
